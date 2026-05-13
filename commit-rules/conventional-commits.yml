@@ -1,0 +1,19 @@
+commit-header-syntax:
+  pattern: '^\w+(\(.+\))?:\s(\n|.)+$'
+  message: "Commit header syntax incorrect. Should be '<type>[optional scope]: <description>'."
+
+commit-header-commit-type:
+  pattern: '^(feat|fix|build|chore|ci|docs|style|refactor|perf|test)[:\(].*'
+  message: "Commit type is not a valid commit type. Options are feat, fix, build, chore, ci, docs, style, refactor, perf, or test."
+
+commit-header-scope:
+  pattern: '^(feat|fix|build|chore|ci|docs|style|refactor|perf|test)(\([_a-z-]+\))?:\s.+'
+  message: "Commit scope not valid. Only lowercase letters, dash, and underscore are allowed."
+
+commit-header-subject:
+  pattern: '^(feat|fix|build|chore|ci|docs|style|refactor|perf|test)(\([_a-z-]+\))?:\s[_a-z0-9-\s]+(\n(\n|.)*)?$'
+  message: "Commit subject not valid. Only lowercase letters, digits, dash, and underscore are allowed."
+
+commit-body-footer-syntax:
+  pattern: '^[^\n]+(?:\n{2}[^\n].+){0,2}\n?$'
+  message: "Commit body/footer not valid. Body and footer must be separated by double line breaks."

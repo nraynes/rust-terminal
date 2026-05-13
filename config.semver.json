@@ -1,0 +1,58 @@
+{
+    "release_branch": "master",
+    "major_changes": {
+        "changes": [
+            {
+                "priority": 1,
+                "pattern": "^(.|\n)*BREAKING CHANGE(.|\n)*$",
+                "kind": "BREAKING CHANGES"
+            }
+        ]
+    },
+    "minor_changes": {
+        "changes": [
+            {
+                "priority": 2,
+                "pattern": "^feat(.|\n)*$",
+                "kind": "Features"
+            }
+        ]
+    },
+    "patch_changes": {
+        "changes": [
+            {
+                "priority": 3,
+                "pattern": "^fix(.|\n)*$",
+                "kind": "Patches"
+            }
+        ]
+    },
+    "other_changes": {
+        "changes": [
+            {
+                "priority": 4,
+                "pattern": "^chore(.|\n)*$",
+                "kind": "Maintenance Items"
+            },
+            {
+                "priority": 5,
+                "pattern": "^docs(.|\n)*$",
+                "kind": "Documentation"
+            }
+        ]
+    },
+    "generate_changelog": true,
+    "log_level": "DEBUG",
+    "changelog_location": "CHANGELOG.md",
+    "git_auth_method": "GITHUB",
+    "commit_changes": true,
+    "push_changes": true,
+    "plugin_location": ".release",
+    "plugins": {
+        "semver-cargo": {
+            "set_version": true,
+            "publish": true,
+            "act_on_no_update": false
+        }
+    }
+}
