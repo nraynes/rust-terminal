@@ -1,10 +1,6 @@
-# Version: v0.1.0
+# Version: v0.1.1
 
-## Features
+## Patches
 
-- feat: added ability to run terminal commands
-
-## Maintenance Items
-
-- chore: init
+- fix: fixed error type name
 
