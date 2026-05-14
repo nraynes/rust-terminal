@@ -4,7 +4,7 @@ use std::{
     process::{Child, Command as StdCmd, ExitStatus, Output, Stdio},
 };
 
-use crate::Alert;
+use crate::TerminalError;
 
 pub struct Command {
     pipe_stdout: bool,
@@ -20,7 +20,7 @@ impl Command {
         self
     }
 
-    pub fn run<I, S>(&self, command: &str, args: I) -> Result<Output, Alert>
+    pub fn run<I, S>(&self, command: &str, args: I) -> Result<Output, TerminalError>
     where
         I: IntoIterator<Item = S>,
         S: AsRef<OsStr>,
@@ -32,7 +32,7 @@ impl Command {
     }
 
     /// Run command without piping output to parent process.
-    fn wait_for_output<I, S>(&self, command: &str, args: I) -> Result<Output, Alert>
+    fn wait_for_output<I, S>(&self, command: &str, args: I) -> Result<Output, TerminalError>
     where
         I: IntoIterator<Item = S>,
         S: AsRef<OsStr>,
@@ -41,7 +41,7 @@ impl Command {
         Ok(cmd.args(args).output()?)
     }
 
-    fn capture_output<I, S>(&self, command: &str, args: I) -> Result<Output, Alert>
+    fn capture_output<I, S>(&self, command: &str, args: I) -> Result<Output, TerminalError>
     where
         I: IntoIterator<Item = S>,
         S: AsRef<OsStr>,
@@ -56,7 +56,7 @@ impl Command {
     }
 
     /// Spawn a command and wait for it to finish, pipes stdout to parent process.
-    fn spawn<I, S>(&self, command: &str, args: I) -> Result<Child, Alert>
+    fn spawn<I, S>(&self, command: &str, args: I) -> Result<Child, TerminalError>
     where
         I: IntoIterator<Item = S>,
         S: AsRef<OsStr>,
@@ -67,7 +67,7 @@ impl Command {
     }
 
     /// Takes a child process and reads its stdout while waiting for it to finish.
-    pub fn read_stdout_from(child: &mut Child) -> Result<ExitStatus, Alert> {
+    pub fn read_stdout_from(child: &mut Child) -> Result<ExitStatus, TerminalError> {
         let mut child_stdout = child
             .stdout
             .take()

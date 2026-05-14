@@ -1,7 +1,7 @@
-mod alert;
 mod command;
 mod terminal;
+mod terminal_error;
 
-pub use alert::Alert;
 pub use command::Command;
 pub use terminal::Terminal;
+pub use terminal_error::TerminalError;
