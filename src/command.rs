@@ -1,6 +1,7 @@
 use std::{
     ffi::OsStr,
     io::{self, Read, Write},
+    path::PathBuf,
     process::{Child, Command as StdCmd, ExitStatus, Output, Stdio},
 };
 
@@ -8,11 +9,20 @@ use crate::TerminalError;
 
 pub struct Command {
     pipe_stdout: bool,
+    current_dir: Option<PathBuf>,
 }
 
 impl Command {
     pub fn new() -> Self {
-        Self { pipe_stdout: false }
+        Self {
+            pipe_stdout: false,
+            current_dir: None,
+        }
+    }
+
+    pub fn current_dir(&mut self, dir: PathBuf) -> &mut Self {
+        self.current_dir = Some(dir);
+        self
     }
 
     pub fn piped(&mut self) -> &mut Self {
@@ -38,7 +48,10 @@ impl Command {
         S: AsRef<OsStr>,
     {
         let mut cmd = StdCmd::new(command);
-        Ok(cmd.args(args).output()?)
+        match &self.current_dir {
+            Some(dir) => Ok(cmd.args(args).current_dir(dir).output()?),
+            None => Ok(cmd.args(args).output()?),
+        }
     }
 
     fn capture_output<I, S>(&self, command: &str, args: I) -> Result<Output, TerminalError>
@@ -62,7 +75,15 @@ impl Command {
         S: AsRef<OsStr>,
     {
         let mut cmd = StdCmd::new(command);
-        let child = cmd.args(args).stdout(Stdio::piped()).spawn()?;
+
+        let child = match &self.current_dir {
+            Some(dir) => cmd
+                .args(args)
+                .current_dir(dir)
+                .stdout(Stdio::piped())
+                .spawn()?,
+            None => cmd.args(args).stdout(Stdio::piped()).spawn()?,
+        };
         Ok(child)
     }
 
