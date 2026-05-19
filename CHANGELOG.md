@@ -1,6 +1,6 @@
-# Version: v0.1.1
+# Version: v0.2.0
 
-## Patches
+## Features
 
-- fix: fixed error type name
+- feat: added ability to specify directory to run command from
 
