@@ -1,6 +1,6 @@
-# Version: v0.2.0
+# Version: v0.2.1
 
-## Features
+## Patches
 
-- feat: added ability to specify directory to run command from
+- fix: changed parameter to path reference
 
