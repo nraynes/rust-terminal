@@ -1,7 +1,7 @@
 use std::{
     ffi::OsStr,
     io::{self, Read, Write},
-    path::PathBuf,
+    path::{Path, PathBuf},
     process::{Child, Command as StdCmd, ExitStatus, Output, Stdio},
 };
 
@@ -20,8 +20,8 @@ impl Command {
         }
     }
 
-    pub fn current_dir(&mut self, dir: PathBuf) -> &mut Self {
-        self.current_dir = Some(dir);
+    pub fn current_dir(&mut self, dir: &Path) -> &mut Self {
+        self.current_dir = Some(dir.to_path_buf());
         self
     }
 
